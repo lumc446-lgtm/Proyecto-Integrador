@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
             name: "Manzanas Orgánicas",
             category: "Frutas & Verduras",
             price: 2.50,
-            image: "https://images.unsplash.com/photo-1560806887-1e4cd0b6fac6?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80",
+            image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRssWKgdisd8jJcl5Nt-3USk0emDEv4D7G7Ew&s",
             badge: "Fresco"
         },
         {
