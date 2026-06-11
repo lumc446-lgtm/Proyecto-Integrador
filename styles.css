@@ -32,7 +32,10 @@ body {
     overflow-x: hidden;
 }
 
-h1, h2, h3, h4 {
+h1,
+h2,
+h3,
+h4 {
     font-family: var(--font-heading);
     font-weight: 800;
     line-height: 1.2;
@@ -129,7 +132,9 @@ a {
 }
 
 /* Buttons */
-.btn-primary, .btn-secondary, .btn-primary-outline {
+.btn-primary,
+.btn-secondary,
+.btn-primary-outline {
     display: inline-block;
     padding: 0.8rem 1.8rem;
     border-radius: 50px;
@@ -213,8 +218,13 @@ a {
 }
 
 @keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .hero-content {
@@ -436,7 +446,8 @@ a {
     max-width: 300px;
 }
 
-.footer-links h4, .footer-contact h4 {
+.footer-links h4,
+.footer-contact h4 {
     font-size: 1.2rem;
     margin-bottom: 1.5rem;
 }
@@ -479,7 +490,7 @@ a {
     .hero-title {
         font-size: 3.5rem;
     }
-    
+
     .footer-grid {
         grid-template-columns: 1fr;
         gap: 2rem;
@@ -502,7 +513,7 @@ a {
     .nav-links.active {
         display: flex;
     }
-    
+
     .mobile-menu-btn {
         display: flex;
     }
@@ -510,19 +521,19 @@ a {
     .mobile-menu-btn.active .bar:nth-child(1) {
         transform: translateY(9px) rotate(45deg);
     }
-    
+
     .mobile-menu-btn.active .bar:nth-child(2) {
         opacity: 0;
     }
-    
+
     .mobile-menu-btn.active .bar:nth-child(3) {
         transform: translateY(-9px) rotate(-45deg);
     }
-    
+
     .hero-buttons {
         flex-direction: column;
     }
-    
+
     .hero-title {
         font-size: 2.5rem;
     }
@@ -976,7 +987,8 @@ a {
     color: var(--text-muted);
 }
 
-.form-group input {
+.form-group input,
+.form-group select {
     width: 100%;
     padding: 0.8rem 1rem;
     background: var(--bg-main);
@@ -987,7 +999,8 @@ a {
     transition: var(--transition);
 }
 
-.form-group input:focus {
+.form-group input:focus,
+.form-group select:focus {
     outline: none;
     border-color: var(--primary);
     box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.2);
@@ -1042,6 +1055,7 @@ a {
 .admin-grid::-webkit-scrollbar {
     width: 6px;
 }
+
 .admin-grid::-webkit-scrollbar-thumb {
     background: var(--border-glass);
     border-radius: 10px;
@@ -1099,4 +1113,111 @@ a {
 
 .btn-save-price:hover {
     background: var(--primary-hover);
+}
+
+/* Admin Tabs */
+.admin-tabs {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-glass);
+    padding-bottom: 1rem;
+}
+
+.admin-tab-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: var(--transition);
+}
+
+.admin-tab-btn:hover {
+    color: var(--text-main);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.admin-tab-btn.active {
+    background: var(--primary);
+    color: white;
+}
+
+.admin-tab-content {
+    display: none;
+}
+
+.admin-tab-content.active {
+    display: block;
+    animation: fadeIn 0.4s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.text-muted {
+    color: var(--text-muted);
+}
+
+/* Admin Orders */
+.admin-orders-list h3 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+}
+
+.admin-order-item {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-glass);
+    margin-bottom: 1rem;
+}
+
+.admin-order-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 0.5rem;
+}
+
+.admin-order-id {
+    font-weight: bold;
+    color: var(--primary);
+}
+
+.admin-order-date {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.admin-order-details ul {
+    list-style: none;
+    margin-bottom: 1rem;
+}
+
+.admin-order-details li {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+}
+
+.admin-order-total {
+    text-align: right;
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--accent);
+}
+
+.empty-orders-msg {
+    text-align: center;
+    color: var(--text-muted);
+    font-style: italic;
+    padding: 2rem;
 }

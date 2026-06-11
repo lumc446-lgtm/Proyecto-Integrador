@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Navbar scroll effect
     const navbar = document.querySelector('.navbar');
-    
+
     window.addEventListener('scroll', () => {
         if (window.scrollY > 50) {
             navbar.classList.add('scrolled');
@@ -36,12 +36,12 @@ document.addEventListener('DOMContentLoaded', () => {
             e.preventDefault();
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
-            
+
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 const navHeight = navbar.offsetHeight;
                 const targetPosition = targetElement.getBoundingClientRect().top + window.scrollY - navHeight;
-                
+
                 window.scrollTo({
                     top: targetPosition,
                     behavior: 'smooth'
@@ -116,8 +116,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 2. Render Products
     const productsContainer = document.getElementById('products-container');
-    
-    window.renderPublicProducts = function() {
+
+    window.renderPublicProducts = function () {
         if (!productsContainer) return;
         productsContainer.innerHTML = '';
         products.forEach(product => {
@@ -131,7 +131,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <div class="product-info">
                         <span class="product-category">${product.category}</span>
                         <h3 class="product-title">${product.name}</h3>
-                        <div class="product-price">$${Number(product.price).toFixed(2)}</div>
+                        <div class="product-price">S/ ${Number(product.price).toFixed(2)}</div>
                         <button class="btn-add-cart" onclick="addToCart(${product.id})">
                             <i class="fas fa-cart-plus"></i> Añadir
                         </button>
@@ -146,7 +146,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 3. Cart State Management
     let cart = JSON.parse(localStorage.getItem('flics_cart')) || [];
-    
+
     const cartIcon = document.getElementById('cart-icon');
     const cartSidebar = document.getElementById('cart-sidebar');
     const closeCartBtn = document.getElementById('close-cart');
@@ -180,12 +180,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Add to Cart (Global function so inline onclick can use it)
-    window.addToCart = function(productId) {
+    window.addToCart = function (productId) {
         const product = products.find(p => p.id === productId);
         if (!product) return;
 
         const existingItem = cart.find(item => item.id === productId);
-        
+
         if (existingItem) {
             existingItem.quantity += 1;
         } else {
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Remove from Cart
-    window.removeFromCart = function(productId) {
+    window.removeFromCart = function (productId) {
         cart = cart.filter(item => item.id !== productId);
         saveCart();
         renderCart();
@@ -209,7 +209,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     // Update Quantity
-    window.updateQuantity = function(productId, change) {
+    window.updateQuantity = function (productId, change) {
         const item = cart.find(item => item.id === productId);
         if (item) {
             item.quantity += change;
@@ -231,7 +231,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateCartBadge() {
         const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
         cartCount.textContent = totalItems;
-        
+
         // Add a little pop animation
         cartCount.style.transform = 'scale(1.3)';
         setTimeout(() => {
@@ -241,10 +241,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function renderCart() {
         cartItemsContainer.innerHTML = '';
-        
+
         if (cart.length === 0) {
             cartItemsContainer.innerHTML = '<p class="empty-cart-msg">Tu carrito está vacío.</p>';
-            cartTotalPrice.textContent = '$0.00';
+            cartTotalPrice.textContent = 'S/ 0.00';
             return;
         }
 
@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     <img src="${item.image}" alt="${item.name}" class="cart-item-img">
                     <div class="cart-item-details">
                         <div class="cart-item-title">${item.name}</div>
-                        <div class="cart-item-price">$${item.price.toFixed(2)}</div>
+                        <div class="cart-item-price">S/ ${item.price.toFixed(2)}</div>
                         <div class="cart-item-actions">
                             <button class="qty-btn" onclick="updateQuantity(${item.id}, -1)">-</button>
                             <span>${item.quantity}</span>
@@ -274,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
             cartItemsContainer.insertAdjacentHTML('beforeend', itemHtml);
         });
 
-        cartTotalPrice.textContent = `$${total.toFixed(2)}`;
+        cartTotalPrice.textContent = `S/ ${total.toFixed(2)}`;
     }
 
     // Checkout
@@ -284,7 +284,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 showToast("El carrito está vacío.");
                 return;
             }
-            
+
+            // Guardar pedido
+            const orders = JSON.parse(localStorage.getItem('flics_orders')) || [];
+            const newOrder = {
+                id: 'PED-' + Date.now().toString().slice(-6),
+                date: new Date().toLocaleString('es-PE'),
+                items: [...cart],
+                total: cart.reduce((sum, item) => sum + (item.price * item.quantity), 0)
+            };
+            orders.unshift(newOrder);
+            localStorage.setItem('flics_orders', JSON.stringify(orders));
+
             alert('¡Gracias por tu compra! (Simulación de pago)');
             cart = [];
             saveCart();
@@ -302,9 +313,9 @@ document.addEventListener('DOMContentLoaded', () => {
             <i class="fas fa-check-circle toast-icon"></i>
             <span>${message}</span>
         `;
-        
+
         toastContainer.appendChild(toast);
-        
+
         // Trigger reflow to apply transition
         setTimeout(() => {
             toast.classList.add('show');
@@ -335,9 +346,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeDashboardBtn = document.getElementById('close-dashboard');
     const adminProductsContainer = document.getElementById('admin-products-container');
     const addProductBtn = document.getElementById('add-product-btn');
+    const newCategorySelect = document.getElementById('new-category-select');
+    const newCategoryInput = document.getElementById('new-category');
+
+    if (newCategorySelect) {
+        newCategorySelect.addEventListener('change', () => {
+            if (newCategorySelect.value === 'otra') {
+                newCategoryInput.style.display = 'block';
+            } else {
+                newCategoryInput.style.display = 'none';
+                newCategoryInput.value = '';
+            }
+        });
+    }
 
     function openLoginModal(e) {
-        if(e) e.preventDefault();
+        if (e) e.preventDefault();
         adminLoginModal.classList.add('show');
         adminPasswordInput.value = '';
         loginError.textContent = '';
@@ -372,11 +396,20 @@ document.addEventListener('DOMContentLoaded', () => {
     function openAdminDashboard() {
         adminDashboardModal.classList.add('show');
         renderAdminProducts();
+        renderAdminOrders();
     }
 
     function renderAdminProducts() {
         if (!adminProductsContainer) return;
         adminProductsContainer.innerHTML = '';
+
+        if (newCategorySelect) {
+            const categories = [...new Set(products.map(p => p.category))];
+            newCategorySelect.innerHTML = categories.map(cat => `<option value="${cat}">${cat}</option>`).join('');
+            newCategorySelect.innerHTML += '<option value="otra">+ Añadir otra categoría...</option>';
+            newCategoryInput.style.display = 'none';
+            newCategoryInput.value = '';
+        }
 
         products.forEach(product => {
             const adminHtml = `
@@ -386,7 +419,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <div class="admin-item-cat">${product.category}</div>
                     </div>
                     <div class="admin-item-price-edit">
-                        <span>$</span>
+                        <span>S/</span>
                         <input type="number" id="edit-price-${product.id}" value="${Number(product.price).toFixed(2)}" step="0.01">
                         <button class="btn-save-price" onclick="updateProductPrice(${product.id})">Guardar</button>
                     </div>
@@ -396,7 +429,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    window.updateProductPrice = function(id) {
+    window.updateProductPrice = function (id) {
         const input = document.getElementById(`edit-price-${id}`);
         const newPrice = parseFloat(input.value);
         if (isNaN(newPrice) || newPrice < 0) {
@@ -417,12 +450,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (addProductBtn) {
         addProductBtn.addEventListener('click', () => {
             const nameInput = document.getElementById('new-name');
-            const catInput = document.getElementById('new-category');
             const priceInput = document.getElementById('new-price');
             const imgInput = document.getElementById('new-image');
             const badgeInput = document.getElementById('new-badge');
 
-            if (!nameInput.value || !catInput.value || !priceInput.value || !imgInput.value) {
+            let selectedCategory = newCategorySelect.value;
+            if (selectedCategory === 'otra') {
+                selectedCategory = newCategoryInput.value.trim();
+            }
+
+            if (!nameInput.value || !selectedCategory || !priceInput.value || !imgInput.value) {
                 showToast("Por favor llena los campos requeridos.");
                 return;
             }
@@ -430,7 +467,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const newProduct = {
                 id: Date.now(),
                 name: nameInput.value,
-                category: catInput.value,
+                category: selectedCategory,
                 price: parseFloat(priceInput.value),
                 image: imgInput.value,
                 badge: badgeInput.value || ""
@@ -443,10 +480,73 @@ document.addEventListener('DOMContentLoaded', () => {
             showToast("Producto añadido");
 
             nameInput.value = '';
-            catInput.value = '';
+            if (newCategorySelect) newCategorySelect.selectedIndex = 0;
+            if (newCategoryInput) {
+                newCategoryInput.value = '';
+                newCategoryInput.style.display = 'none';
+            }
             priceInput.value = '';
             imgInput.value = '';
             badgeInput.value = '';
         });
     }
+
+    // Admin Tabs Logic
+    const adminTabBtns = document.querySelectorAll('.admin-tab-btn');
+    const adminTabContents = document.querySelectorAll('.admin-tab-content');
+
+    adminTabBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            // Remove active class
+            adminTabBtns.forEach(b => b.classList.remove('active'));
+            adminTabContents.forEach(c => c.classList.remove('active'));
+
+            // Add active class
+            btn.classList.add('active');
+            const target = document.getElementById(btn.getAttribute('data-tab'));
+            if (target) {
+                target.classList.add('active');
+            }
+        });
+    });
+
+    const adminOrdersContainer = document.getElementById('admin-orders-container');
+
+    window.renderAdminOrders = function() {
+        if (!adminOrdersContainer) return;
+        const orders = JSON.parse(localStorage.getItem('flics_orders')) || [];
+        
+        if (orders.length === 0) {
+            adminOrdersContainer.innerHTML = '<p class="empty-orders-msg">No hay pedidos aún.</p>';
+            return;
+        }
+
+        adminOrdersContainer.innerHTML = '';
+        orders.forEach(order => {
+            const itemsHtml = order.items.map(item => `
+                <li>
+                    <span>${item.quantity}x ${item.name}</span>
+                    <span>S/ ${(item.price * item.quantity).toFixed(2)}</span>
+                </li>
+            `).join('');
+
+            const orderHtml = `
+                <div class="admin-order-item">
+                    <div class="admin-order-header">
+                        <span class="admin-order-id">${order.id}</span>
+                        <span class="admin-order-date">${order.date}</span>
+                    </div>
+                    <div class="admin-order-details">
+                        <ul>
+                            ${itemsHtml}
+                        </ul>
+                    </div>
+                    <div class="admin-order-total">
+                        Total: S/ ${order.total.toFixed(2)}
+                    </div>
+                </div>
+            `;
+            adminOrdersContainer.insertAdjacentHTML('beforeend', orderHtml);
+        });
+    };
 });
