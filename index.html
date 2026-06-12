@@ -13,6 +13,9 @@
         href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Inter:wght@400;500;700&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
     <link rel="stylesheet" href="styles.css">
 </head>
 
@@ -25,8 +28,7 @@
                 <li><a href="#categorias">Categorías</a></li>
                 <li><a href="#productos">Productos</a></li>
                 <li><a href="#ofertas">Ofertas</a></li>
-                <li><a href="#" id="nav-login-btn" class="btn-primary-outline"><i class="fas fa-user"></i> Iniciar
-                        Sesión</a></li>
+                <li><a href="#" id="nav-login-btn" class="btn-primary-outline"><i class="fas fa-user"></i> Iniciar Sesión</a></li>
                 <li>
                     <a href="#" id="cart-icon" class="cart-icon">
                         <i class="fas fa-shopping-cart"></i>
@@ -46,8 +48,7 @@
         <div class="hero-bg"></div>
         <div class="container hero-content">
             <h1 class="hero-title">Tu bodega del barrio,<br><span class="gradient-text">reinventada.</span></h1>
-            <p class="hero-subtitle">Encuentra productos frescos, bebidas frías y todo lo que necesitas para tu día, en
-                un solo lugar y a la vuelta de la esquina.</p>
+            <p class="hero-subtitle">Encuentra productos frescos, bebidas frías y todo lo que necesitas para tu día, en un solo lugar y a la vuelta de la esquina.</p>
             <div class="hero-buttons">
                 <a href="#categorias" class="btn-primary">Descubrir Productos</a>
                 <a href="#contacto" class="btn-secondary">Cómo Llegar</a>
@@ -88,7 +89,7 @@
                     </div>
                 </div>
                 <div class="category-card">
-                    <img src="https://imgmedia.larepublica.pe/850x501/larepublica/original/2022/07/18/62d582cb3db53c0def13074e.webp"
+                    <img src="https://images.unsplash.com/photo-1599490659213-e2b9527bb087?w=600"
                         alt="Snacks" class="category-img">
                     <div class="category-content">
                         <h3>Snacks & Dulces</h3>
@@ -96,7 +97,7 @@
                     </div>
                 </div>
                 <div class="category-card">
-                    <img src="https://thumbs.dreamstime.com/b/bebidas-gaseosas-en-la-nevera-venta-el-surtido-incluye-coca-cola-fanta-sprite-y-otras-pavo-estambul-237823925.jpg?w=768"
+                    <img src="https://images.unsplash.com/photo-1527661591450-b2733b2fcb74?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80"
                         alt="Bebidas" class="category-img">
                     <div class="category-content">
                         <h3>Bebidas Frías</h3>
@@ -118,9 +119,7 @@
     <section id="productos" class="products">
         <div class="container">
             <h2 class="section-title">Productos Destacados</h2>
-            <div id="products-container" class="products-grid">
-                <!-- Productos generados dinámicamente -->
-            </div>
+            <div id="products-container" class="products-grid"></div>
         </div>
     </section>
 
@@ -151,9 +150,9 @@
             </div>
             <div class="footer-contact">
                 <h4>Visítanos</h4>
-                <p>📍 Calle Principal 123, Ica</p>
-                <p>📞 +51 999 888 777</p>
-                <p>✉️ correofu@flicsbodega.com</p>
+                <p>📍 Calle El Dorado, Acomayo 507, Parcona 11001, Ica</p>
+                <p>📞 (056) 211587</p>
+                <p>✉️ tienda@flicsbodega.com</p>
             </div>
         </div>
         <div class="footer-bottom">
@@ -161,15 +160,12 @@
         </div>
     </footer>
 
-    <!-- Carrito Lateral -->
     <div id="cart-sidebar" class="cart-sidebar">
         <div class="cart-header">
             <h2>Tu Carrito</h2>
             <button id="close-cart" class="close-cart"><i class="fas fa-times"></i></button>
         </div>
-        <div id="cart-items" class="cart-items">
-            <!-- Items generados dinámicamente -->
-        </div>
+        <div id="cart-items" class="cart-items"></div>
         <div class="cart-footer">
             <div class="cart-total">
                 <span>Total:</span>
@@ -180,24 +176,23 @@
     </div>
     <div id="cart-overlay" class="cart-overlay"></div>
 
-    <!-- Contenedor de Notificaciones -->
     <div id="toast-container" class="toast-container"></div>
 
-    <!-- Admin Login Modal -->
     <div id="admin-login-modal" class="modal">
         <div class="modal-content">
             <span class="close-modal" id="close-login">&times;</span>
-            <h2>Acceso Administrador</h2>
+            <h2>Iniciar Sesión</h2>
             <div class="form-group">
-                <label for="admin-password">Contraseña:</label>
-                <input type="password" id="admin-password" placeholder="Ingresa la contraseña" autocomplete="off">
-                <p id="login-error" class="error-msg"></p>
+                <label>Correo / Usuario</label>
+                <input type="text" id="login-email" placeholder="correo@gmail.com ">
+                <label style="margin-top: 10px; display: block;">Contraseña</label>
+                <input type="password" id="login-password" placeholder="********">
+                <p id="login-error" class="error-msg" style="color: red; font-size: 13px; margin-top: 8px;"></p>
             </div>
-            <button id="login-submit" class="btn-primary w-100">Ingresar</button>
+            <button id="login-submit" class="btn-primary w-100" style="margin-top: 15px;">Ingresar</button>
         </div>
     </div>
 
-    <!-- Admin Dashboard Modal -->
     <div id="admin-dashboard-modal" class="modal">
         <div class="modal-content modal-lg">
             <span class="close-modal" id="close-dashboard">&times;</span>
@@ -206,16 +201,15 @@
             <div class="admin-tabs">
                 <button class="admin-tab-btn active" data-tab="tab-productos">Productos</button>
                 <button class="admin-tab-btn" data-tab="tab-pedidos">Pedidos</button>
+                <button class="admin-tab-btn" data-tab="tab-graficos" id="btn-tab-charts">Gráficos</button>
             </div>
 
             <div id="tab-productos" class="admin-tab-content active">
                 <div class="admin-sections">
                     <div class="admin-products-list">
                         <h3>Productos Actuales</h3>
-                        <p class="text-muted" style="margin-bottom: 1rem; font-size: 0.9rem;">Modifica directamente los precios de los productos aquí:</p>
-                        <div id="admin-products-container" class="admin-grid">
-                            <!-- Admin products generated dynamically -->
-                        </div>
+                        <p class="text-muted" style="margin-bottom: 1rem; font-size: 0.9rem;">Gestiona precios o elimina productos del inventario:</p>
+                        <div id="admin-products-container" class="admin-grid"></div>
                     </div>
 
                     <div class="admin-add-product">
@@ -226,11 +220,7 @@
                         </div>
                         <div class="form-group">
                             <label for="new-category-select">Categoría</label>
-                            <select id="new-category-select">
-                                <!-- Opciones generadas dinámicamente -->
-                            </select>
-                            <input type="text" id="new-category" placeholder="Nueva Categoría..."
-                                style="display: none; margin-top: 10px;">
+                            <select id="new-category-select"></select>
                         </div>
                         <div class="form-group">
                             <label for="new-price">Precio (S/)</label>
@@ -252,11 +242,52 @@
             <div id="tab-pedidos" class="admin-tab-content">
                 <div class="admin-orders-list">
                     <h3>Pedidos Realizados</h3>
-                    <div id="admin-orders-container" class="admin-grid">
-                        <!-- Admin orders generated dynamically -->
+                    <div id="admin-orders-container" class="admin-grid"></div>
+                </div>
+            </div>
+
+            <div id="tab-graficos" class="admin-tab-content">
+                <div class="charts-dashboard-grid">
+                    <div class="chart-box">
+                        <h4>Ventas por Categoría (Destacados)</h4>
+                        <div class="chart-wrapper">
+                            <canvas id="chartProductos"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-box">
+                        <h4>Ingresos Netos Totales (S/)</h4>
+                        <div class="chart-wrapper">
+                            <canvas id="chartDinero"></canvas>
+                        </div>
+                    </div>
+                    <div class="chart-box full-width">
+                        <h4>Embudo de Conversión (Visitas vs Compras Exitosas)</h4>
+                        <div class="chart-wrapper-large">
+                            <canvas id="chartUsuarios"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
+
+        </div>
+    </div>
+
+    <div id="payment-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-payment">&times;</span>
+            <h2>Método de Pago</h2>
+            <p style="margin-bottom: 20px; text-align: center;">Seleccione cómo desea realizar el pago de su compra:</p>
+            <button id="pay-yape" class="btn-primary w-100" style="margin-bottom: 10px;">📱 Pagar con Yape</button>
+            <button id="pay-cash" class="btn-secondary w-100">💵 Pagar en Efectivo</button>
+        </div>
+    </div>
+
+    <div id="yape-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" id="close-yape">&times;</span>
+            <h2>Pago con Yape</h2>
+            <p style="text-align: center; margin: 20px 0;">Escanee o envíe el pago al número Yape corporativo:<br><strong style="font-size: 1.4rem; color: #742284;">999888777</strong></p>
+            <button id="confirm-yape" class="btn-primary w-100">Ya Realicé el Pago</button>
         </div>
     </div>
 
